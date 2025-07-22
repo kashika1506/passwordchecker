@@ -1,6 +1,7 @@
+/* Base Styling */
 body {
-  background-color: #121212;
-  color: #f0f0f0;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
   font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
@@ -9,62 +10,44 @@ body {
   margin: 0;
 }
 
+/* Container */
 .container {
-  background-color: #1e1e1e;
+  background-color: #2a2a2a;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(255, 117, 151, 0.2);
   width: 320px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   text-align: center;
 }
 
+/* Heading */
 h1 {
-  color: #FF7597;
+  color: #b0b0b0;
   margin-bottom: 1.5rem;
 }
 
+/* Input */
 input[type="password"],
 input[type="text"] {
   width: 100%;
   padding: 10px;
   border-radius: 6px;
   border: none;
-  outline: none;
   margin-bottom: 1rem;
-  background-color: #2e2e2e;
-  color: #fff;
   font-size: 1rem;
+  background-color: #3a3a3a;
+  color: #fff;
 }
 
-.controls {
+/* Toggle Switch */
+.toggle-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
+  justify-content: start;
   margin-bottom: 1rem;
 }
 
-button {
-  background-color: #FF7597;
-  color: #121212;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s ease;
-}
-
-button:hover {
-  background-color: #e85d83;
-}
-
-#strength {
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-/* Toggle switch styles */
 .switch {
   position: relative;
   display: inline-block;
@@ -103,14 +86,57 @@ button:hover {
 }
 
 input:checked + .slider {
-  background-color: #FF7597;
+  background-color: #888; /* muted grey accent */
 }
 
 input:checked + .slider:before {
   transform: translateX(20px);
 }
 
-.toggle-label {
+/* Strength Bar */
+.strength-bar {
+  height: 8px;
+  width: 100%;
+  background-color: #3a3a3a;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+#bar {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+/* Strength Text */
+#strength-text {
+  margin-top: 10px;
   font-size: 0.9rem;
+}
+
+/* Vulnerability Scan */
+.vulnerability-scan {
+  margin-top: 2rem;
+  background-color: #252525;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.vulnerability-scan h2 {
+  color: #b0b0b0;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+#vuln-list {
+  list-style-type: none;
+  padding-left: 0;
+  font-size: 0.9rem;
+}
+
+#vuln-list li {
+  margin: 5px 0;
   color: #ccc;
 }
