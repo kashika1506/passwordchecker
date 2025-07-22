@@ -8,28 +8,23 @@
 </head>
 <body>
   <div class="container">
-    <h2>Password Strength Checker 🔐</h2>
+    <h1>Password Strength Checker</h1>
+    
+    <input type="password" id="password" placeholder="Enter your password" />
+    
+    <div class="controls">
+      <label class="switch">
+        <input type="checkbox" id="togglePassword" onchange="toggleVisibility()">
+        <span class="slider"></span>
+      </label>
+      <span class="toggle-label">Show Password</span>
 
-    <div class="password-box">
-      <input type="password" id="password" placeholder="Enter your password" />
-      <span id="togglePassword">👁️</span>
+      <button onclick="lockPassword()">Lock</button>
     </div>
 
-    <div class="strength-bar">
-      <div id="strength-level"></div>
-    </div>
-
-    <p id="strength-text"></p>
-    <ul id="tips-list"></ul>
-
-    <button id="scanBtn">Run Local Scan</button>
-    <div id="scanResult"></div>
-
-    <button id="breachCheckBtn">Check Breach Database</button>
-    <div id="breachResult"></div>
+    <div id="strength"></div>
   </div>
 
   <script src="script.js"></script>
 </body>
-</html>
 
