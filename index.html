@@ -8,18 +8,27 @@
 </head>
 <body>
   <div class="container">
-    <h2>Password Strength Checker</h2>
-    <input type="password" id="password" placeholder="Enter password" />
-    <div class="toggle" onclick="toggleVisibility()">👁️ Show/Hide Password</div>
-    <div class="feedback" id="feedback"></div>
-    <div id="pwnedResult"></div>
-    <button onclick="checkPassword()">Check Strength</button>
-    <button onclick="generateSuggestion()">Suggest Strong Password</button>
-    <div class="suggestion" id="suggestionBox"></div>
+    <h2>Password Strength Checker </h2>
+
+    <div class="password-box">
+      <input type="password" id="password" placeholder="Enter your password" />
+      <span id="togglePassword">👁️</span>
+    </div>
+
+    <div class="strength-bar">
+      <div id="strength-level"></div>
+    </div>
+
+    <p id="strength-text"></p>
+    <ul id="tips-list"></ul>
+
+    <button id="scanBtn">Run Local Scan</button>
+    <div id="scanResult"></div>
+
+    <button id="breachCheckBtn">Check Breach Database</button>
+    <div id="breachResult"></div>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
-
