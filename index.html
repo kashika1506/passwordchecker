@@ -1,34 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Password Strength Checker</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Password Strength Checker</h1>
-
-    <input type="password" id="password" placeholder="Enter your password" />
-
-    <div class="toggle-container">
-      <label class="switch">
-        <input type="checkbox" id="togglePassword">
-        <span class="slider"></span>
-      </label>
-      <span>Show Password</span>
-    </div>
-
-    <div class="strength-bar">
-      <div id="bar"></div>
-    </div>
-    <p id="strength-text"></p>
-
-    <div class="vulnerability-scan">
-      <h2>Vulnerability Scan</h2>
-      <ul id="vuln-list"></ul>
-    </div>
+    <h2>Password Strength Checker</h2>
+    <input type="password" id="password" placeholder="Enter password" />
+    <div class="toggle" onclick="toggleVisibility()">👁️ Show/Hide Password</div>
+    <div class="feedback" id="feedback"></div>
+    <div id="pwnedResult"></div>
+    <button onclick="checkPassword()">Check Strength</button>
+    <button onclick="generateSuggestion()">Suggest Strong Password</button>
+    <div class="suggestion" id="suggestionBox"></div>
   </div>
 
   <script src="script.js"></script>

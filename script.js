@@ -1,65 +1,64 @@
-const passwordInput = document.getElementById("password");
-const bar = document.getElementById("bar");
-const strengthText = document.getElementById("strength-text");
-const vulnList = document.getElementById("vuln-list");
-const togglePassword = document.getElementById("togglePassword");
-
-togglePassword.addEventListener("change", () => {
-  passwordInput.type = togglePassword.checked ? "text" : "password";
-});
-
-passwordInput.addEventListener("input", () => {
-  const pwd = passwordInput.value;
-  updateStrength(pwd);
-  runVulnerabilityScan(pwd);
-});
-
-function updateStrength(password) {
-  let strength = 0;
-  if (password.length >= 8) strength++;
-  if (/[A-Z]/.test(password)) strength++;
-  if (/[a-z]/.test(password)) strength++;
-  if (/[0-9]/.test(password)) strength++;
-  if (/[^A-Za-z0-9]/.test(password)) strength++;
-
-  let width = strength * 20;
-  bar.style.width = width + "%";
-
-  let color;
-  let text;
-
-  if (strength <= 2) {
-    color = "#a94442"; // red
-    text = "Weak";
-  } else if (strength === 3 || strength === 4) {
-    color = "#c0a036"; // yellow
-    text = "Moderate";
-  } else {
-    color = "#8fbc8f"; // muted green-grey
-    text = "Strong";
-  }
-
-  bar.style.background = color;
-  strengthText.textContent = `Strength: ${text}`;
+function toggleVisibility() {
+  const input = document.getElementById("password");
+  input.type = input.type === "password" ? "text" : "password";
 }
 
-function runVulnerabilityScan(password) {
-  vulnList.innerHTML = "";
+function checkPassword() {
+  const pwd = document.getElementById("password").value;
+  const feedback = document.getElementById("feedback");
+  const pwned = document.getElementById("pwnedResult");
+  feedback.innerHTML = "";
+  pwned.innerHTML = "";
 
-  const issues = [];
-  if (password.length < 8) issues.push("Too short (less than 8 characters)");
-  if (!/[A-Z]/.test(password)) issues.push("Missing uppercase letter");
-  if (!/[a-z]/.test(password)) issues.push("Missing lowercase letter");
-  if (!/[0-9]/.test(password)) issues.push("Missing number");
-  if (!/[^A-Za-z0-9]/.test(password)) issues.push("Missing special character");
+  const checks = [
+    { test: /.{12,}/, message: "✅ Minimum 12 characters" },
+    { test: /[A-Z]/, message: "✅ Contains uppercase letter" },
+    { test: /[0-9]/, message: "✅ Contains number" },
+    { test: /[^A-Za-z0-9]/, message: "✅ Contains special character" }
+  ];
 
-  if (issues.length === 0) {
-    vulnList.innerHTML = "<li style='color: #8fbc8f;'>No common vulnerabilities found.</li>";
-  } else {
-    issues.forEach(issue => {
-      const li = document.createElement("li");
-      li.textContent = `• ${issue}`;
-      vulnList.appendChild(li);
-    });
+  checks.forEach(rule => {
+    const passed = rule.test.test(pwd);
+    const color = passed ? "lightgreen" : "orange";
+    feedback.innerHTML += `<p style="color:${color}">${rule.message}</p>`;
+  });
+
+  checkPwned(pwd);
+}
+
+async function checkPwned(password) {
+  const hash = await sha1(password);
+  const prefix = hash.slice(0, 5);
+  const suffix = hash.slice(5).toUpperCase();
+
+  try {
+    const res = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
+    const text = await res.text();
+    const found = text.split("\n").find(line => line.startsWith(suffix));
+
+    const pwned = document.getElementById("pwnedResult");
+    if (found) {
+      const count = found.split(":")[1].trim();
+      pwned.innerHTML = `<p style="color:red">⚠️ Password found in ${count} breaches! Choose another.</p>`;
+    } else {
+      pwned.innerHTML = `<p style="color:lightgreen">✅ Password not found in breaches.</p>`;
+    }
+  } catch (err) {
+    document.getElementById("pwnedResult").innerHTML = `<p style="color:orange">Error checking HaveIBeenPwned API</p>`;
   }
+}
+
+async function sha1(str) {
+  const buf = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("").toUpperCase();
+}
+
+function generateSuggestion() {
+  const length = 16;
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    password += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  document.getElementById("suggestionBox").innerText = `💡 Suggested: ${password}`;
 }
